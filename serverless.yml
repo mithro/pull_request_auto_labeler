@@ -25,12 +25,16 @@ provider:
 
 functions:
   lambdaCron:
-    handler: auto_labeler.lambda_handler
+    handler: handler.lambda_handler
     environment:
       ORGANIZATION: ${env:ORGANIZATION}
       GITHUB_API_TOKEN: ${env:GITHUB_API_TOKEN}
     events:
       - schedule: rate(1 hours)
+
+custom:
+  pythonRequirements:
+    fileName: serverless-requirements.txt
 
 package:
   exclude:

@@ -1,0 +1,1 @@
+git+git://github.com/markddavidoff/pull_request_auto_labeler.git

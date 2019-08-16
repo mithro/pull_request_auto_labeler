@@ -16,7 +16,8 @@ Set the following enviornment vars:
 
 ## Running as a Cron on AWS Lambda
 
-For convenience I've included setup instructions to run this as a cron using aws lambda made easy by the [serverless](https://serverless.com/framework/docs/) toolkit. If you haven't used serverless, I hava a getting started with serverless guide [here](https://gist.github.com/markddavidoff/0bbfcdfc29bbbdedc8b57e062987b480) 
+For convenience I've included setup instructions to run this as a cron using aws lambda made easy by the [serverless]
+(https://serverless.com/framework/docs/) toolkit. If you haven't used serverless, I have a getting started with serverless guide [here](https://gist.github.com/markddavidoff/0bbfcdfc29bbbdedc8b57e062987b480) 
 
 ## Install serverless plugins
 **serverless-python-requirements**
@@ -28,8 +29,10 @@ to make that all super easy.*
 sls plugin install -n serverless-python-requirements
 ```
 
-### Setup your lambda run frequency
-- See the notes in the `serverless.yml` file under `functions>lambdaCron>events>schedule`.
+### Setup serverless for this project
+- Copy the `serverless.yaml`, `serverless-requirements.txt' and `handler.py` files in this repo
+- tweak any provider params you need to to match your setup
+- Set the run frequency (update under `functions>lambdaCron>events>schedule`)
 
 ### Deploy to AWS
 `sls deploy`

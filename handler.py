@@ -1,0 +1,1 @@
+from pull_request_auto_labeler import lambda_handler
