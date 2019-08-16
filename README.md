@@ -18,8 +18,8 @@ Set the following enviornment vars:
 
 For convenience I've included setup instructions to run this as a cron using aws lambda made easy by the [serverless](https://serverless.com/framework/docs/) toolkit. If you haven't used serverless, I have a getting started with serverless guide [here](https://gist.github.com/markddavidoff/0bbfcdfc29bbbdedc8b57e062987b480) 
 
-## Install serverless plugins
-**serverless-python-requirements**
+### Install serverless plugins
+*serverless-python-requirements*
 
 *Its pretty annoying to add external requirements to a lambda when deploying manually. You have to build the wheels
 for the packages on an aws linux ami and include those in the zip that you upload. Luckily, there's a serverless plugin
