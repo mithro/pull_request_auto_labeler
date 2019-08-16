@@ -5,13 +5,13 @@ with open('README.md', 'rb') as f:
 
 setup(
     name='pull_request_auto_labeler',
-    version='0.1',
+    version='0.3',
     url='https://github.com/markddavidoff/pull_request_auto_labeler',
     author='Mark Davidoff',
     author_email='markddavidoff@gmail.com',
     description='Automatically label Github pull requests based on elements of the PR title. Expects Jira style ticket code(PROJ-100) in PR title',
     long_description=readme,
-    py_modules=['auto_labeler'],
+    py_modules=['pull_request_auto_labeler'],
     license='MIT',
     install_requires=[
         'github3.py==1.2.0'
