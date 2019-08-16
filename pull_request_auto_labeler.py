@@ -1,7 +1,9 @@
+import logging
 import os
 import re
 import sys
 
+from tqdm import tqdm
 from github3 import login
 
 try:
@@ -10,6 +12,13 @@ try:
 except KeyError as error:
     sys.stderr.write('Please set the environment variable {0}'.format(error))
     sys.exit(1)
+
+# logging.basicConfig(stream=sys.stdout, level=logging.DEBUG)
+logger = logging.getLogger(__name__)
+logger.setLevel(logging.DEBUG)
+handler = logging.StreamHandler(sys.stdout)
+handler.setLevel(logging.DEBUG)
+logger.addHandler(handler)
 
 
 def get_issues_that_are_prs(repository):
@@ -41,21 +50,33 @@ def get_project_names(issue):
     return [code.split('-')[0].upper() for code in ticket_codes]
 
 
-def add_labels_for_project_names_from_pr_titles():
+def add_labels_for_project_names_from_pr_titles(show_progress_bar=True):
     client = login(token=GITHUB_API_TOKEN)
     organization = client.organization(ORGANIZATION)
-    for repository in organization.repositories():
+    repos_iterator = organization.repositories()
+    log = logger.info
+    if show_progress_bar:
+        log = tqdm.write
+        repos_iterator = tqdm(list(repos_iterator), desc=f'Repos in {ORGANIZATION}')
+    log(f"Getting all repos in {ORGANIZATION}...")
+    for repository in repos_iterator:
         issues_that_are_prs = get_issues_that_are_prs(repository)
+        if show_progress_bar:
+            issues_that_are_prs = tqdm(issues_that_are_prs, desc=f'PRs in   {repository.full_name}')
+
+        log(f"Getting all PRs in {repository.full_name}...")
         for issue in issues_that_are_prs:
             project_names = get_project_names(issue)
             if project_names:
+                log(f'Updating PR {issue.id}-{issue.title} with labels {project_names}')
                 issue.add_labels(*project_names)
             elif MISSING_PROJECT_NAME_LABEL:
+                log(f'Updating PR {issue.id}-{issue.title} with label {MISSING_PROJECT_NAME_LABEL}')
                 issue.add_labels(MISSING_PROJECT_NAME_LABEL)
 
 
 def lambda_handler(event, context):
-    add_labels_for_project_names_from_pr_titles()
+    add_labels_for_project_names_from_pr_titles(show_progress_bar=False)
     response = {
         "statusCode": 200,
         "body": "OK"
