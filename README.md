@@ -11,7 +11,7 @@ Set the following enviornment vars:
 - GITHUB_API_TOKEN : A Github API Token which has access to read the repositories you want and modify pull requests. If you don't have one you see the guide [here](https://help.github.com/en/articles/creating-a-personal-access-token-for-the-command-line)
 - ORGANIZATION the name of the github organization/username that you want to check PRs for.
 
-## Running
+## Running from command line
 `python auto_labeler.py`
 
 ## Running as a Cron on AWS Lambda
@@ -20,3 +20,6 @@ For convenience I've included setup instructions to run this as a cron using aws
 
 ### Setup your lambda run frequency
 - See the notes in the `serverless.yml` file under `functions>pull_request_auto_labeler>events>schedule`.
+
+### Deploy to AWS
+`sls deploy`
