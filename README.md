@@ -30,7 +30,7 @@ sls plugin install -n serverless-python-requirements
 ```
 
 ### Setup serverless for this project
-- Copy the `serverless.yaml`, `serverless-requirements.txt' and `handler.py` files in this repo
+- Copy the `serverless.yaml`, `serverless-requirements.txt` and `handler.py` files in this repo
 - tweak any provider params you need to to match your setup
 - Set the run frequency (update under `functions>lambdaCron>events>schedule`)
 

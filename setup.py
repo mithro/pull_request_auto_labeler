@@ -9,7 +9,7 @@ README = (HERE / "README.md").read_text()
 
 setup(
     name='pull_request_auto_labeler',
-    version='0.8',
+    version='0.9',
     url='https://github.com/markddavidoff/pull_request_auto_labeler',
     author='Mark Davidoff',
     author_email='markddavidoff@gmail.com',
