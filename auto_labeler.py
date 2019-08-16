@@ -53,5 +53,16 @@ def add_labels_for_project_names_from_pr_titles():
             elif MISSING_PROJECT_NAME_LABEL:
                 issue.add_labels(MISSING_PROJECT_NAME_LABEL)
 
+
+def lambda_handler(event, context):
+    add_labels_for_project_names_from_pr_titles()
+    response = {
+        "statusCode": 200,
+        "body": "OK"
+    }
+
+    return response
+
+
 if __name__ == '__main__':
     add_labels_for_project_names_from_pr_titles()

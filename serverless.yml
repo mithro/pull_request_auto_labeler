@@ -1,0 +1,40 @@
+# Welcome to Serverless!
+#
+# This file is the main config file for your service.
+# It's very minimal at this point and uses default values.
+# You can always add more config options for more control.
+# We've included some commented out config examples here.
+# Just uncomment any of them to get that config option.
+#
+# For full config options, check the docs:
+#    docs.serverless.com
+#
+# Happy Coding!
+
+service: pullrequestautolabeler
+
+
+provider:
+  name: aws
+  runtime: python3.7
+  region: us-west-1
+  # don't need a dev stage for this
+  stage: prod
+  timeout: 30
+
+
+functions:
+  lambdaCron:
+    handler: auto_labeler.lambda_handler
+    environment:
+      ORGANIZATION: ${env:ORGANIZATION}
+      GITHUB_API_TOKEN: ${env:GITHUB_API_TOKEN}
+    events:
+      - schedule: rate(1 hours)
+
+package:
+  exclude:
+    - __pycache__/**
+
+plugins:
+  - serverless-python-requirements
