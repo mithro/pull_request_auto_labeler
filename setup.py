@@ -1,15 +1,11 @@
-import pathlib
 from setuptools import setup
 
-# The directory containing this file
-HERE = pathlib.Path(__file__).parent
-
-# The text of the README file
-README = (HERE / "README.md").read_text()
+with open('README.md', 'rb') as f:
+    README = f.read().decode('utf-8')
 
 setup(
     name='pull_request_auto_labeler',
-    version='0.9',
+    version='0.10',
     url='https://github.com/markddavidoff/pull_request_auto_labeler',
     author='Mark Davidoff',
     author_email='markddavidoff@gmail.com',
