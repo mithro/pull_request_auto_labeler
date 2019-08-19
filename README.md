@@ -6,6 +6,12 @@ This labeler does the following:
  - check each PR to see if it has any matching a Jira style ticket code in the title (PROJ-100)
  - apply a label to the Pull Request matching the uppercase version of the project codes from the title (PROJ)
 
+## Installation
+If you want to run this as a cron, you can install from pip:
+`pip install pull-request-auto-labeler`
+
+But if you're going to set this up as an AWS Lambda, you'll want the `serverless.yaml`, `serverless-requirements.txt` and `handler.py` so you might as well pull the source.
+
 ## Setup
 Set the following enviornment vars:
 - GITHUB_API_TOKEN : A Github API Token which has access to read the repositories you want and modify pull requests. If you don't have one you see the guide [here](https://help.github.com/en/articles/creating-a-personal-access-token-for-the-command-line)
