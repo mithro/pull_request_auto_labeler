@@ -20,7 +20,7 @@ provider:
   region: us-west-1
   # don't need a dev stage for this
   stage: prod
-  timeout: 30
+  timeout: 120
 
 
 functions:
@@ -30,11 +30,12 @@ functions:
       ORGANIZATION: ${env:ORGANIZATION}
       GITHUB_API_TOKEN: ${env:GITHUB_API_TOKEN}
     events:
-      - schedule: rate(1 hours)
+      - schedule: rate(30 minutes)
 
 custom:
   pythonRequirements:
     fileName: serverless-requirements.txt
+    dockerizePip: true
 
 package:
   exclude:
