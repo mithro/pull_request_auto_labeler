@@ -6,8 +6,10 @@ This labeler does the following:
  - check each PR to see if it has any matching a Jira style ticket code in the title (PROJ-100)
  - apply a label to the Pull Request matching the uppercase version of the project codes from the title (PROJ)
 
+[![PyPI version](https://badge.fury.io/py/pull-request-auto-labeler.svg)](https://badge.fury.io/py/pull-request-auto-labeler)
+
 ## Installation
-If you want to run this as a cron, you can install from pip:
+If you want to run this as a cron, you can install from pypi with pip:
 `pip install pull-request-auto-labeler`
 
 But if you're going to set this up as an AWS Lambda, you'll want the `serverless.yaml`, `serverless-requirements.txt` and `handler.py` so you might as well pull the source.
