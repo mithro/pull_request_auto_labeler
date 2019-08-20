@@ -1,5 +1,6 @@
 # pull_request_auto_labeler
-Automatically label Github pull requests based on elements of the PR title. Expects Jira style ticket code(PROJ-100) in PR title
+Automatically label Github pull requests based on elements of the PR title. 
+Default configuration expects Jira style ticket code(PROJ-100) in PR title
 
 This labeler does the following:
  - get all open Pull Requests for all the repositories for an organization/user
@@ -16,8 +17,19 @@ But if you're going to set this up as an AWS Lambda, you'll want the `serverless
 
 ## Setup
 Set the following enviornment vars:
-- GITHUB_API_TOKEN : A Github API Token which has access to read the repositories you want and modify pull requests. If you don't have one you see the guide [here](https://help.github.com/en/articles/creating-a-personal-access-token-for-the-command-line)
-- ORGANIZATION the name of the github organization/username that you want to check PRs for.
+
+- **[Required] GITHUB_API_TOKEN:** A Github API Token which has access to read the repositories you want 
+and modify 
+pull requests. 
+If you don't have one you see the guide [here](https://help.github.com/en/articles/creating-a-personal-access-token-for-the-command-line)
+- **[Required] ORGANIZATION:** the name of the github organization/username that you want to check PRs for.
+- *[Optional] LABEL_EXTRACTING_REGEX:* Regex expression which will be applied on the PR title using python's
+ `re.findall`. 
+  - This regex expression should have one matching group which returns the portion of the title which
+ should be used as a label. i.e. if the regex finds PROJ-100, the matching group should be PROJ
+  - Since we're using `re.findall` this can have multiple matches on the title, but each
+ match must have only one group.
+  - Default is `\s*[\[]*([a-zA-Z0-9]{2,})[-|\s][0-9]+` which matches: `PROJ-100`, `[PROJ-100]`, `B2C-1`, `Proj 100`.
 
 ## Running from command line
 `python auto_labeler.py`

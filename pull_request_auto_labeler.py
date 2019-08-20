@@ -9,6 +9,8 @@ from github3 import login
 try:
     GITHUB_API_TOKEN = os.environ['GITHUB_API_TOKEN']
     ORGANIZATION = os.environ['ORGANIZATION']
+    # PROJECT-100, [project2-900], etc
+    LABEL_EXTRACTING_REGEX = os.environ[r'\s*[\[]*([a-zA-Z0-9]{2,})[-|\s][0-9]+']
 except KeyError as error:
     sys.stderr.write('Please set the environment variable {0}'.format(error))
     sys.exit(1)
@@ -33,8 +35,7 @@ def get_issues_that_are_prs(repository):
     return issues_that_are_prs
 
 
-# PROJECT-100, [project2-900], etc
-RE_TICKET_CODE = re.compile(r'\s*[\[]*([a-zA-Z][a-zA-Z0-9]*[-][0-9][0-9]*)')
+RE_TICKET_CODE = re.compile(LABEL_EXTRACTING_REGEX)
 
 MISSING_PROJECT_NAME_LABEL = 'NO JIRA TICKET'
 
