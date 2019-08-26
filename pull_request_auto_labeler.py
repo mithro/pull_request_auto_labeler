@@ -10,7 +10,7 @@ try:
     GITHUB_API_TOKEN = os.environ['GITHUB_API_TOKEN']
     ORGANIZATION = os.environ['ORGANIZATION']
     # PROJECT-100, [project2-900], etc
-    LABEL_EXTRACTING_REGEX = os.environ[r'\s*[\[]*([a-zA-Z0-9]{2,})[-|\s][0-9]+']
+    LABEL_EXTRACTING_REGEX = os.environ.get('LABEL_EXTRACTING_REGEX',r'\s*[\[]*([a-zA-Z0-9]{2,})[-|\s][0-9]+')
 except KeyError as error:
     sys.stderr.write('Please set the environment variable {0}'.format(error))
     sys.exit(1)

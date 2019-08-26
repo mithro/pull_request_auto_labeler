@@ -5,7 +5,7 @@ with open('README.md', 'rb') as f:
 
 setup(
     name='pull_request_auto_labeler',
-    version='0.11',
+    version='0.12',
     url='https://github.com/markddavidoff/pull_request_auto_labeler',
     author='Mark Davidoff',
     author_email='markddavidoff@gmail.com',
