@@ -1,3 +1,4 @@
+#!python3
 import logging
 import os
 import re
@@ -37,18 +38,22 @@ def get_issues_that_are_prs(repository):
 
 RE_TICKET_CODE = re.compile(LABEL_EXTRACTING_REGEX)
 
-MISSING_PROJECT_NAME_LABEL = 'NO JIRA TICKET'
+MISSING_PROJECT_NAME_LABEL = 'kokoro:force-run'
+
+def label_events(issue):
+    events = []
+    for e in issue.events():
+        if 'labeled' not in e.event:
+            continue
+        events.append((e.event, e.label['name']))
+    return tuple(events)
 
 
-def get_ticket_codes_from_issue(issue):
-    # PROJECT-100, project2-900, etc
-    return RE_TICKET_CODE.findall(issue.title)
-
-
-def get_project_names(issue):
-    # PROJECT1, PROJECT2
-    ticket_codes = get_ticket_codes_from_issue(issue)
-    return [code.split('-')[0].upper() for code in ticket_codes]
+def has_kokoro(label_events):
+    for e, l in label_events:
+        if 'kokoro' in l:
+            return True
+    return False
 
 
 def add_labels_for_project_names_from_pr_titles(show_progress_bar=True):
@@ -67,13 +72,15 @@ def add_labels_for_project_names_from_pr_titles(show_progress_bar=True):
 
         log(f"Getting all PRs in {repository.full_name}...")
         for issue in issues_that_are_prs:
-            project_names = get_project_names(issue)
-            if project_names:
-                log(f'Updating PR {issue.id}-{issue.title} with labels {project_names}')
-                issue.add_labels(*project_names)
-            elif MISSING_PROJECT_NAME_LABEL:
-                log(f'Updating PR {issue.id}-{issue.title} with label {MISSING_PROJECT_NAME_LABEL}')
-                issue.add_labels(MISSING_PROJECT_NAME_LABEL)
+            if issue.user.login != "dependabot-preview[bot]":
+                continue
+            ev = label_events(issue)
+            if has_kokoro(ev) and issue.number != 1160:
+                log(f'{issue.user} Not updating PR {issue.number}-{issue.title}.')
+            else:
+                log(f'{issue.user}     Updating PR {issue.number}-{issue.title}.')
+                issue.add_labels('kokoro:force-run')
+                break
 
 
 def lambda_handler(event, context):

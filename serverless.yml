@@ -15,22 +15,19 @@ service: pullrequestautolabeler
 
 
 provider:
-  name: aws
+  name: google
+  project: foss-fpga-tools-kokoro
+  credentials: ~/.gcloud/keyfile.json
   runtime: python3.7
-  region: us-west-1
-  # don't need a dev stage for this
-  stage: prod
-  timeout: 120
-
 
 functions:
   lambdaCron:
-    handler: handler.lambda_handler
+    handler: handler #.lambda_handler
     environment:
       ORGANIZATION: ${env:ORGANIZATION}
       GITHUB_API_TOKEN: ${env:GITHUB_API_TOKEN}
     events:
-      - schedule: rate(30 minutes)
+      - schedule: rate(1 minutes)
 
 custom:
   pythonRequirements:
@@ -39,7 +36,12 @@ custom:
 
 package:
   exclude:
+    - node_modules/**
     - __pycache__/**
+    - .gitignore
+    - .git/**
+    - venv
 
 plugins:
   - serverless-python-requirements
+  - serverless-google-cloudfunctions
